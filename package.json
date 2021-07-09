@@ -16,6 +16,9 @@
     "url": "https://github.com/FlamingTuri/merge-branch/issues"
   },
   "homepage": "https://github.com/FlamingTuri/merge-branch#readme",
+  "engines": {
+    "node": ">=14.8.0"
+  },
   "devDependencies": {},
   "dependencies": {
     "yargs": "^17.0.1",
