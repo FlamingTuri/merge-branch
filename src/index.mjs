@@ -1,6 +1,6 @@
-import { $ } from 'zx'
-import yargs from 'yargs'
-import { hideBin } from 'yargs/helpers'
+import { $ } from 'zx';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 const argv = yargs(hideBin(process.argv))
     .usage('Utility to pull from a target git branch and merge it into the current one.')
