@@ -27,7 +27,7 @@ try {
     await $`git checkout ${targetBranch}`;
     await $`git pull`;
     await $`git checkout ${currentBranch}`;
-    await $`git ${mergeStrategy} ${targetBranch}`;
+    await $`git ${mergeStrategy.split(' ')} ${targetBranch}`;
 } catch (p) {
     console.error(`Exit code: ${p.exitCode}`)
     console.error(`Error: ${p.stderr}`)
