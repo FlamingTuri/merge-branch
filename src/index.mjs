@@ -1,4 +1,4 @@
-import { $ } from 'zx';
+import shelljs from 'shelljs';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -20,14 +20,22 @@ const argv = yargs(hideBin(process.argv))
     .argv;
 
 try {
-    const currentBranch = await $`git branch --show-current`;
+    shelljs.config.verbose = true;
+
+    const currentBranch = shelljs.exec(`git branch --show-current`);
     const targetBranch = argv.b;
     const mergeStrategy = argv.c;
 
-    await $`git checkout ${targetBranch}`;
-    await $`git pull`;
-    await $`git checkout ${currentBranch}`;
-    await $`git ${mergeStrategy.split(' ')} ${targetBranch}`;
+    // necessary conversion: shell js stdout contains a new line
+    if (currentBranch.stdout.replace('\n', '') === targetBranch) {
+        console.warn(`Nothing to do: current branch and target branch are the same!`);
+        process.exit(1);
+    }
+
+    shelljs.exec(`git checkout ${targetBranch}`);
+    shelljs.exec(`git pull`);
+    shelljs.exec(`git checkout ${currentBranch}`);
+    shelljs.exec(`git ${mergeStrategy} ${targetBranch}`);
 } catch (p) {
     console.error(`Exit code: ${p.exitCode}`)
     console.error(`Error: ${p.stderr}`)
