@@ -12,9 +12,9 @@ const argv = yargs(hideBin(process.argv))
     .default('c', 'merge --no-ff')
     .help('h')
     .alias('h', 'help')
-    .example("# assuming the current branch is develop")
-    .example("node $0 -b main")
-    .example("node $0 -b main -c rebase")
+    .example('# assuming the current branch is develop')
+    .example('node $0 -b main')
+    .example('node $0 -b main -c rebase')
     .alias('v', 'version')
     .version('1.0.0')
     .argv;
@@ -22,9 +22,9 @@ const argv = yargs(hideBin(process.argv))
 try {
     shelljs.config.verbose = true;
 
-    const currentBranch = shelljs.exec(`git branch --show-current`);
-    const targetBranch = argv['b'];
-    const mergeStrategy = argv['c'];
+    const currentBranch = shelljs.exec('git branch --show-current');
+    const targetBranch = argv.b;
+    const mergeStrategy = argv.c;
 
     // necessary conversion: shell js stdout contains a new line
     if (currentBranch.stdout.replace('\n', '') === targetBranch) {
@@ -33,7 +33,7 @@ try {
     }
 
     shelljs.exec(`git checkout ${targetBranch}`);
-    shelljs.exec(`git pull`);
+    shelljs.exec('git pull');
     shelljs.exec(`git checkout ${currentBranch}`);
     shelljs.exec(`git ${mergeStrategy} ${targetBranch}`);
 } catch (e) {
