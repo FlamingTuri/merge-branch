@@ -5,9 +5,8 @@ on:
 
 jobs:
   npm-registry-release:
-    needs: build
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       contents: read
       packages: write 
     steps:
