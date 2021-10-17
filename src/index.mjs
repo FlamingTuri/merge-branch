@@ -2,6 +2,8 @@ import shelljs from 'shelljs';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+const scriptName = 'merge-branch';
+
 const argv = yargs(hideBin(process.argv))
   .usage('Utility to pull from a target git branch and merge it into the current one.')
   .alias('b', 'branch')
@@ -12,9 +14,12 @@ const argv = yargs(hideBin(process.argv))
   .default('c', 'merge --no-ff')
   .help('h')
   .alias('h', 'help')
-  .example('# assuming the current branch is develop')
-  .example('node $0 -b main')
-  .example('node $0 -b main -c rebase')
+  .example('# will merge develop branch into the current branch')
+  .example(`${scriptName}`)
+  .example('# will merge feature/xyz branch into the current branch')
+  .example(`${scriptName} -b feature/xyz`)
+  .example('# will merge feature/xyz branch into the current branch using rebase strategy')
+  .example(`${scriptName} -b feature/xyz -c rebase`)
   .alias('v', 'version')
   .version('1.0.0')
   .wrap(yargs.terminalWidth)
