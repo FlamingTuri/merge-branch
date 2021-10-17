@@ -1,0 +1,41 @@
+name: automerge
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  log-github-actor:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.actor }}
+  # Unfortunately, there is no way to run this action after the jobs of lint workflow have ended successfully.
+  # Until an easy, deterministic and non wait/retry based solution exists, the lint steps will also be
+  # executed by this workflow
+  lint:
+    needs: log-github-actor
+    if: ${{ github.actor == 'dependabot[bot]' || github.actor == 'FlamingTuri' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+      - run: npm ci
+      - run: npm run lint
+  automerge:
+    needs: [log-github-actor, lint]
+    if: ${{ github.actor == 'dependabot[bot]' || github.actor == 'FlamingTuri' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "DanySK/yaagha@master"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_FORKS: "false"
+          MERGE_LABELS: "dependencies"
+          MERGE_METHOD: "merge"
+          CLOSE_ON_CONFLICT: "false"
+          DELETE_BRANCH_ON_CLOSE: "true"
+          GIT_USER_NAME: "gventurini"
+          GIT_USER_EMAIL: "giacomo.venturini3@gmail.com"
