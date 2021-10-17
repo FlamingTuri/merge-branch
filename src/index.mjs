@@ -17,6 +17,7 @@ const argv = yargs(hideBin(process.argv))
   .example('node $0 -b main -c rebase')
   .alias('v', 'version')
   .version('1.0.0')
+  .wrap(yargs.terminalWidth)
   .argv;
 
 try {
