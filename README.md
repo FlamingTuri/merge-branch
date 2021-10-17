@@ -13,6 +13,18 @@ git checkout feature/#ABCXYZ
 git merge --no-ff develop
 ```
 
+## Installing
+
+```bash
+npm install -g merge-branch
+```
+
+To install the latest version with security updates applied target `@dev` tag:
+
+```bash
+npm install -g merge-branch@dev
+```
+
 ## Usage
 
 Obviously target branch and merge strategy can be customized. This is `merge-branch` usage:
