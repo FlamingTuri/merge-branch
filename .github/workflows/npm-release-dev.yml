@@ -14,7 +14,7 @@ jobs:
           ref: develop
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts'
+          node-version: 'lts/*'
       - run: npm ci
       - id: status
         # using a run statement for each command does not work
@@ -34,7 +34,7 @@ jobs:
           ref: develop
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts'
+          node-version: 'lts/*'
       - run: npm ci
       - run: npm run lint
       - id: version
@@ -55,7 +55,7 @@ jobs:
       # setup to publish to npm registry
       - uses: actions/setup-node@v2
         with:
-          node-version: 'lts'
+          node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       # temporary modifies package.json version (the timestamp is used to get a uuid)
