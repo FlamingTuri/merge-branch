@@ -4,10 +4,11 @@ on:
     - cron:  '00 10 * * *'
 
 jobs:
-  check-for-changes:
+  setup:
     runs-on: ubuntu-latest
     outputs:
-      output: ${{ steps.status.outputs.value }}
+      status: ${{ steps.status.outputs.value }}
+      version: ${{ steps.version.outputs.value }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -21,29 +22,15 @@ jobs:
         run: |
           OUT=`node .github/script/check-for-changes-within-24h.mjs "src package.json package-lock.json"`
           echo "$OUT build step"
-          echo "::set-output name=value::$OUT"
-  build:
-    needs: check-for-changes
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.value }}
-    if: ${{ needs.check-for-changes.outputs.output == 'run' }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: develop
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 'lts/*'
-      - run: npm ci
-      - run: npm run lint
+          echo "::set-output name=value::$OUT"- id: version
       - id: version
         run: |
           DEV_VERSION=`node .github/script/create-develop-version.mjs`
           echo "library dev version $DEV_VERSION"
           echo "::set-output name=value::$DEV_VERSION"
   npm-registry-release:
-    needs: build
+    needs: setup
+    if: ${{ needs.setup.outputs.status == 'run' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -59,7 +46,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       # temporary modifies package.json version (the timestamp is used to get a uuid)
-      - run: npm version ${{ needs.build.outputs.version }} --no-git-tag-version
+      - run: npm version ${{ needs.setup.outputs.version }} --no-git-tag-version
       - run: npm publish --access public --tag dev
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
