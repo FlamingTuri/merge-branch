@@ -2,7 +2,10 @@
   "name": "merge-branch",
   "description": "Utility to pull from a target git branch and merge it into the current one.",
   "version": "1.0.1",
-  "main": "src/index.mjs",
+  "main": "src/merge-branch.js",
+  "bin": {
+    "merge-branch": "./bin/cli"
+  },
   "scripts": {
     "lint": "eslint \"src/**\"",
     "prepublishOnly": "npm run lint"
