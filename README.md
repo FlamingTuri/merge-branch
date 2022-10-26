@@ -1,5 +1,9 @@
 # merge-branch
 
+This repostiory has been discontinued. The same behaviour (and even more) can be obtained by configuring an alias with [nca](https://github.com/FlamingTuri/nca) tool.
+
+---
+
 Usually, feature and fix branches are called with hard to remember/type names, like feature/#XXXXXX or fix/#YYY (where X and Y are usually numbers). Before creating a pull request, it is a common practice to previously align the feature/fix branch with the latest content of the target one.
 
 `merge-branch` aims to speed up such task, by switching to a target branch, pulling its latest changes and merging them back into the starting branch.
