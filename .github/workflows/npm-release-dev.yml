@@ -10,7 +10,7 @@ jobs:
       status: ${{ steps.status.outputs.value }}
       version: ${{ steps.version.outputs.value }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: develop
       - uses: actions/setup-node@v3.1.0
@@ -36,7 +36,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: develop
       # setup to publish to npm registry
